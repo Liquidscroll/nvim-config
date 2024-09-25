@@ -26,19 +26,19 @@ end
 
 local function update_mode_colors()
     local current_mode = vim.api.nvim_get_mode().mode
-    local mode_color = "%#StatusLineAccent#"
+    local mode_color = "%#myStatuslineAccent#"
     if current_mode == "n" then
-        mode_color = "%#StatuslineAccent#"
+        mode_color = "%#myStatuslineAccent#"
     elseif current_mode == "i" or current_mode == "ic" then
-        mode_color = "%#StatuslineInsertAccent#"
+        mode_color = "%#myStatuslineInsertAccent#"
     elseif current_mode == "v" or current_mode == "V" then
-        mode_color = "%#StatuslineVisualAccent#"
+        mode_color = "%#myStatuslineVisualAccent#"
     elseif current_mode == "R" then
-        mode_color = "%#StatuslineReplaceAccent#"
+        mode_color = "%#myStatuslineReplaceAccent#"
     elseif current_mode == "c" then
-        mode_color = "%#StatuslineCmdLineAccent#"
+        mode_color = "%#myStatuslineCmdLineAccent#"
     elseif current_mode == "t" then
-        mode_color = "%#StatuslineTerminalAccent#"
+        mode_color = "%#myStatuslineTerminalAccent#"
     end
     return mode_color
 end
@@ -94,16 +94,16 @@ local function lsp()
     local info = ""
 
     if count["errors"] ~= 0 then
-        errors = " %#LspDiagnosticsSignError# " .. count["errors"]
+        errors = " %#DiagnosticsSignError# " .. count["errors"]
     end
     if count["warnings"] ~= 0 then
-        warnings = " %#LspDiagnosticsSignWarning# " .. count["warnings"]
+        warnings = " %#DiagnosticsSignWarning# " .. count["warnings"]
     end
     if count["hints"] ~= 0 then
-        hints = " %#LspDiagnosticsSignHint#" .. count["hints"]
+        hints = " %#DiagnosticsSignHint#" .. count["hints"]
     end
     if count["info"] ~= 0 then
-        info = " %#LspDiagnosticsSignInformation# " .. count["info"]
+        info = " %#DiagnosticsSignInformation# " .. count["info"]
     end
 
     return errors .. warnings .. hints .. info .. "%#Normal#"
