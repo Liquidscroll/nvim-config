@@ -21,6 +21,18 @@ return {
             {},
             vim.lsp.protocol.make_client_capabilities(),
             cmp_lsp.default_capabilities())
+        local on_attach = function(client, bufnr)
+            local opts = { noremap = true, silent = true, buffer = bufnr }
+            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+            vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+            vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+            vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+            vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+            vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, opts)
+        end
+
+
         require("fidget").setup({})
         require("mason").setup()
         require("mason-lspconfig").setup({
@@ -30,12 +42,15 @@ return {
                 "clangd",
                 "bashls",
                 "cmake",
-                "sorbet"
+                "zls",
+                "pylyzer"
+--               "solargraph"
             },
             handlers = {
-                function(server_name) -- default handler (optional)
+                function(server_name) 
                     require("lspconfig")[server_name].setup {
-                        capabilities = capabilities
+                        capabilities = capabilities,
+                        on_attach = on_attach
                     }
                 end,
 
@@ -50,6 +65,7 @@ return {
                                 warn_style = true,
                             },
                         },
+                        on_attach = on_attach
                     })
                     vim.g.zig_fmt_parse_errors = 0
                     vim.g.zig_fmt_autosave = 0
@@ -66,7 +82,8 @@ return {
                                     globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
                                 }
                             }
-                        }
+                        },
+                        on_attach = on_attach
                     }
                 end,
             }
@@ -81,9 +98,9 @@ return {
                 end,
             },
             mapping = cmp.mapping.preset.insert({
-                ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-                ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+                ['<C-w>'] = cmp.mapping.select_prev_item(cmp_select),
+                ['<C-s>'] = cmp.mapping.select_next_item(cmp_select),
+                ['<C-q>'] = cmp.mapping.confirm({ select = true }),
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({

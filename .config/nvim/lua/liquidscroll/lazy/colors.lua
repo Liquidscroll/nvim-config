@@ -8,13 +8,11 @@ end
 return {
 	{
 		"cpea2506/one_monokai.nvim",
+        lazy = false,
 		config = function()
 			require("one_monokai").setup({
 			transparent = true,
 			colors = {},
---			themes = function(colors)
---				return {}
---			end,
 			italics = false
 			})
 		end
